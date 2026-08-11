@@ -53,36 +53,36 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-        '401':
-          description: API key is missing or invalid.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '403':
-          description: API key does not have workflows:write permission.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-       '409':
-          description: A workflow with the same name already exists.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'      
-        '429':
-           description: Rate limit exceeded. 
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error' 
-        '500':
-          description: Unexpected server-side error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+            '401':
+      description: API key is missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    '403':
+      description: API key does not have workflows:write permission.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    '409':
+      description: A workflow with the same name already exists.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    '429':
+      description: Rate limit exceeded.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    '500':
+      description: Unexpected server-side error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   
   /workflows/{workflow_id}:
     get:
