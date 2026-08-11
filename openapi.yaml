@@ -1,0 +1,365 @@
+openapi: 3.0.3
+
+info:
+  title: FlowSync API
+  version: 1.0.0
+  description: |
+    The FlowSync API allows developers to create, manage, and execute
+    automated workflows across connected business applications.
+
+servers:
+  - url: https://api.flowsync.example.com/v1
+    description: FlowSync API
+
+security:
+  - bearerAuth: []
+
+tags:
+  - name: Workflows
+    description: Create and manage workflows.
+  - name: Executions
+    description: Start and monitor workflow executions.
+
+paths:
+
+  /workflows:
+    post:
+      tags:
+        - Workflows
+      summary: Create a workflow
+      description: Creates a new workflow in draft status.
+      operationId: createWorkflow
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateWorkflowRequest'
+            example:
+              name: Customer Onboarding
+              description: Automates the customer onboarding process.
+
+      responses:
+        '201':
+          description: Workflow created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Workflow'
+        '400':
+          description: Request contains invalid parameters.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: API key is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: API key does not have workflows:write permission.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: A workflow with the same name already exists.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /workflows/{workflow_id}:
+    get:
+      tags:
+        - Workflows
+      summary: Get a workflow
+      description: Returns information about a specific workflow.
+      operationId: getWorkflow
+
+      parameters:
+        - name: workflow_id
+          in: path
+          required: true
+          description: Unique ID of the workflow.
+          schema:
+            type: string
+            example: wf_1024
+
+      responses:
+        '200':
+          description: Workflow retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Workflow'
+        '401':
+          description: API key is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: API key does not have workflows:read permission.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Workflow does not exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /workflows/{workflow_id}/execute:
+    post:
+      tags:
+        - Workflows
+      summary: Execute a workflow
+      description: Starts a workflow execution.
+      operationId: executeWorkflow
+
+      parameters:
+        - name: workflow_id
+          in: path
+          required: true
+          description: Unique ID of the workflow to execute.
+          schema:
+            type: string
+            example: wf_1024
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExecuteWorkflowRequest'
+            example:
+              input:
+                customer_id: cus_2048
+
+      responses:
+        '202':
+          description: Workflow execution queued successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Execution'
+        '400':
+          description: Request contains invalid input.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: API key is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: API key does not have executions:write permission.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Workflow does not exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Workflow is not available for execution.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /executions/{execution_id}:
+    get:
+      tags:
+        - Executions
+      summary: Get an execution
+      description: Returns the current status and details of a workflow execution.
+      operationId: getExecution
+
+      parameters:
+        - name: execution_id
+          in: path
+          required: true
+          description: Unique ID of the execution.
+          schema:
+            type: string
+            example: exec_7821
+
+      responses:
+        '200':
+          description: Execution retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Execution'
+        '401':
+          description: API key is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: API key does not have executions:read permission.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Execution does not exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: API_KEY
+      description: |
+        Use your FlowSync API key as a Bearer token.
+
+  schemas:
+
+    CreateWorkflowRequest:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: Name of the workflow.
+          example: Customer Onboarding
+        description:
+          type: string
+          description: Optional description of the workflow.
+          example: Automates the customer onboarding process.
+
+    ExecuteWorkflowRequest:
+      type: object
+      required:
+        - input
+      properties:
+        input:
+          type: object
+          description: Input values required by the workflow.
+          additionalProperties: true
+          example:
+            customer_id: cus_2048
+
+    Workflow:
+      type: object
+      required:
+        - id
+        - name
+        - status
+        - created_at
+        - updated_at
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the workflow.
+          example: wf_1024
+        name:
+          type: string
+          description: Name assigned to the workflow.
+          example: Customer Onboarding
+        description:
+          type: string
+          description: Optional description of the workflow.
+          example: Automates the customer onboarding process.
+        status:
+          type: string
+          description: Current workflow status.
+          enum:
+            - draft
+            - active
+            - inactive
+          example: active
+        created_at:
+          type: string
+          format: date-time
+          description: UTC timestamp when the workflow was created.
+          example: 2026-08-11T10:30:00Z
+        updated_at:
+          type: string
+          format: date-time
+          description: UTC timestamp when the workflow was last updated.
+          example: 2026-08-11T10:45:00Z
+
+    Execution:
+      type: object
+      required:
+        - execution_id
+        - workflow_id
+        - status
+        - created_at
+      properties:
+        execution_id:
+          type: string
+          description: Unique identifier for the execution.
+          example: exec_7821
+        workflow_id:
+          type: string
+          description: ID of the workflow being executed.
+          example: wf_1024
+        status:
+          type: string
+          description: Current execution status.
+          enum:
+            - pending
+            - running
+            - completed
+            - failed
+          example: completed
+        started_at:
+          type: string
+          format: date-time
+          nullable: true
+          description: UTC timestamp when execution started.
+          example: 2026-08-11T11:00:02Z
+        completed_at:
+          type: string
+          format: date-time
+          nullable: true
+          description: UTC timestamp when execution completed.
+          example: 2026-08-11T11:00:08Z
+        created_at:
+          type: string
+          format: date-time
+          description: UTC timestamp when the execution was created.
+          example: 2026-08-11T11:00:00Z
+
+    Error:
+      type: object
+      required:
+        - error
+      properties:
+        error:
+          type: object
+          required:
+            - code
+            - message
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code.
+              example: INVALID_API_KEY
+            message:
+              type: string
+              description: Human-readable description of the error.
+              example: The API key is missing or invalid.
