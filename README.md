@@ -43,10 +43,22 @@ This sample is written for developers integrating a workflow automation API into
 
 The specification groups operations by resource and uses reusable schemas to keep request, response, and error structures consistent. Operation summaries and field descriptions explain the purpose of each API element.
 
+## Workflow lifecycle
+
+This fictional sample assumes that users configure and activate workflows in a FlowSync web dashboard. The dashboard is not implemented in this repository.
+
+1. **Create:** Use `POST /workflows` to create a workflow in draft status.
+2. **Configure and activate:** In the assumed dashboard, configure the workflow’s actions and required inputs, then activate it.
+3. **Verify:** Use `GET /workflows/{workflow_id}` to confirm that its status is `active`.
+4. **Execute:** Use `POST /workflows/{workflow_id}/execute` to start an execution.
+5. **Monitor:** Use `GET /executions/{execution_id}` to check execution status.
+
+For this sample, only active workflows can execute. Draft and inactive workflows are not executable. Activation through the API is outside the sample’s scope.
+
 ## Current limitations
 
 - Requests have not been verified against a live FlowSync service.
-- The workflow activation process needs further explanation.
+- Dashboard configuration and activation are conceptual. No dashboard implementation is included.
 - Authentication setup and permission guidance need expansion.
 - Complete response examples and practical error-recovery guidance need improvement.
 
