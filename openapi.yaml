@@ -336,6 +336,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              example:
+                error:
+                  code: EXECUTION_NOT_FOUND
+                  message: "No execution exists with the supplied ID. Use the execution_id returned when starting the execution."
 
         '429':
           description: Rate limit exceeded.
