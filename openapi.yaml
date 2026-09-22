@@ -93,6 +93,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              example:
+                error:
+                  code: WORKFLOW_NAME_CONFLICT
+                  message: "A workflow with this name already exists. Choose a different name and retry."
 
         '429':
           description: Rate limit exceeded.
