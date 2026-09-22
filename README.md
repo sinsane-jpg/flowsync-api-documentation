@@ -149,6 +149,12 @@ To repeat the check, follow the Swagger Editor instructions under “Explore the
 
 After adding response examples, I rechecked the specification in Swagger Editor. No errors were reported. I also inspected the rendered examples for all four success responses and the execution operation’s `409 WORKFLOW_NOT_ACTIVE` response. The displayed statuses, timestamps, and error guidance matched the intended sample scenarios. 
 
+### Getting-started guide review
+
+I manually checked the README link to the getting-started guide, the guide’s troubleshooting link, and its OpenAPI specification link. All opened the intended destinations. I also reviewed the four-step sequence, code blocks, response examples, and status table for readable formatting.
+
+This review covered navigation and presentation. The example requests were not executed against a running service.
+
 ### Automated validation
 
 The GitHub Actions workflow in `.github/workflows/validate-openapi.yml` checks `openapi.yaml` using Redocly CLI’s `spec` ruleset. It runs on pushes to `main`, pull requests, and manual triggers.
