@@ -117,6 +117,24 @@ The execution response includes status and timestamps but does not provide a fai
 
 This guidance describes the intended behavior of a fictional API; it has not been verified against a running service.
 
+## Troubleshooting: workflow is not active
+
+**Symptom:** An execution request returns HTTP `409 Conflict` with the error code `WORKFLOW_NOT_ACTIVE`.
+
+**Cause:** The workflow is in draft or inactive status. Only active workflows can execute.
+
+### Recovery steps
+
+1. Check the workflow ID used in the execution request.
+2. Call `GET /workflows/{workflow_id}` to inspect its current status.
+3. If it is draft or inactive, configure and activate it in the assumed FlowSync dashboard.
+4. Retrieve the workflow again and confirm that its status is `active`.
+5. Retry the execution request.
+
+If the workflow already reports `active` but execution continues to return this error, further investigation is required. This sample does not define that situation.
+
+Dashboard activation and the error response are part of this fictional API’s intended design. They have not been tested against a running service.
+
 ## Validation
 
 On September 22, 2026, I loaded the OpenAPI specification into Swagger Editor. The editor reported no errors and rendered the API reference.
