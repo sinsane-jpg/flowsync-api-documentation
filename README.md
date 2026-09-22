@@ -95,14 +95,15 @@ To repeat the check, follow the Swagger Editor instructions under “Explore the
 
 ## Current limitations
 
-- Requests have not been verified against a live FlowSync service.
-- Dashboard configuration and activation are conceptual. No dashboard implementation is included.
-- Authentication setup and permission guidance need expansion.
-- Complete response examples and practical error-recovery guidance need improvement.
+- FlowSync is fictional; requests and responses have not been tested against a running service.
+- Dashboard configuration, activation, and API key management are design assumptions. No dashboard is implemented.
+- Complete, operation-specific response examples still need to be added.
+- Execution monitoring and error-recovery guidance need expansion.
+- Specification validation is currently manual; automated checks are not yet configured.
 
 ## Planned improvements
 
 - Add a getting-started guide that explains the workflow lifecycle.
-- Expand authentication and troubleshooting guidance.
+- Expand execution monitoring and troubleshooting guidance.
 - Add operation-specific response examples.
 - Add automated specification validation to supplement the manual Swagger Editor check.
