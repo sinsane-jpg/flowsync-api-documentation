@@ -123,6 +123,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              example:
+                error:
+                  code: INTERNAL_SERVER_ERROR
+                  message: "An unexpected server error occurred. The outcome of the request may be uncertain."
 
 
   /workflows/{workflow_id}:
@@ -203,6 +207,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              example:
+                error:
+                  code: INTERNAL_SERVER_ERROR
+                  message: "An unexpected server error occurred. The outcome of the request may be uncertain."
 
 
   /workflows/{workflow_id}/execute:
@@ -313,12 +321,15 @@ paths:
                   message: "Too many requests. Reduce the request frequency."
 
         '500':
-          description: Unexpected server-side error.
+         description: Unexpected server-side error.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-
+              example:
+                error:
+                  code: INTERNAL_SERVER_ERROR
+                  message: "An unexpected server error occurred. The outcome of the request may be uncertain."
 
   /executions/{execution_id}:
     get:
@@ -393,11 +404,15 @@ paths:
                   message: "Too many requests. Reduce the request frequency."
 
         '500':
-          description: Unexpected server-side error.
+         description: Unexpected server-side error.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              example:
+                error:
+                  code: INTERNAL_SERVER_ERROR
+                  message: "An unexpected server error occurred. The outcome of the request may be uncertain."
 
 
 components:
