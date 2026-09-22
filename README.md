@@ -143,7 +143,15 @@ This was a manual specification check. It does not verify runtime behavior, succ
 
 To repeat the check, follow the Swagger Editor instructions under “Explore the sample.” Recheck the specification after making changes. 
 
-After adding response examples, I rechecked the specification in Swagger Editor. No errors were reported. I also inspected the rendered examples for all four success responses and the execution operation’s `409 WORKFLOW_NOT_ACTIVE` response. The displayed statuses, timestamps, and error guidance matched the intended sample scenarios.
+After adding response examples, I rechecked the specification in Swagger Editor. No errors were reported. I also inspected the rendered examples for all four success responses and the execution operation’s `409 WORKFLOW_NOT_ACTIVE` response. The displayed statuses, timestamps, and error guidance matched the intended sample scenarios. 
+
+### Automated validation
+
+The GitHub Actions workflow in `.github/workflows/validate-openapi.yml` checks `openapi.yaml` using Redocly CLI’s `spec` ruleset. It runs on pushes to `main`, pull requests, and manual triggers.
+
+The first automated run completed successfully. This check validates the specification against the configured rules; it does not test a running API or guarantee documentation completeness.
+
+[View validation runs](https://github.com/sinsane-jpg/flowsync-api-documentation/actions/workflows/validate-openapi.yml)
 
 ## Current limitations
 
@@ -151,11 +159,10 @@ After adding response examples, I rechecked the specification in Swagger Editor.
 - Dashboard configuration, activation, and API key management are design assumptions. No dashboard is implemented.
 - Success response examples are included for all four operations. Error examples currently cover only the WORKFLOW_NOT_ACTIVE execution error.
 - Execution monitoring and inactive-workflow recovery are documented. Other error-recovery scenarios and detailed failure diagnostics remain limited.
-- Specification validation is currently manual; automated checks are not yet configured.
+- Automated checks cover specification rules. Documentation clarity, scenario completeness, and rendered examples still require manual review.
 
 ## Planned improvements
 
 - Add a getting-started guide that brings authentication, workflow activation, execution, and monitoring into one walkthrough.
 - Add examples for the remaining error responses.
 - Expand troubleshooting guidance for authentication, permissions, and rate-limit errors.
-- Add automated specification validation to supplement the manual Swagger Editor check.
