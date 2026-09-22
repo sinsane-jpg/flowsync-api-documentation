@@ -63,6 +63,44 @@ Save the returned `id` for subsequent requests. `wf_1024` is an example value.
 
 The workflow starts in `draft` status. It must be configured and activated in the assumed dashboard before execution.
 
+## 2. Activate and verify the workflow
+
+The newly created workflow is in `draft` status and cannot execute.
+
+This sample assumes that an authorized user configures the workflow’s actions and required inputs, then activates it in the FlowSync dashboard. No dashboard is implemented, so this is a conceptual step rather than a procedure you can perform.
+
+After activation, retrieve the workflow to verify its status:
+
+```bash
+curl --request GET \
+  --url https://api.flowsync.example.com/v1/workflows/wf_1024 \
+  --header 'Authorization: Bearer YOUR_API_KEY'
+```
+
+Replace `wf_1024` with the ID returned by the creation request. Retrieving the workflow requires `workflows:read` permission.
+
+### Expected response
+
+The intended success response is HTTP `200 OK`. After activation, an illustrative response is:
+
+```json
+{
+  "id": "wf_1024",
+  "name": "Customer Onboarding",
+  "description": "Automates the customer onboarding process.",
+  "status": "active",
+  "created_at": "2026-09-22T10:00:00Z",
+  "updated_at": "2026-09-22T10:04:00Z"
+}
+```
+
+Check the `status` field before proceeding:
+
+- `active`: The workflow can execute.
+- `draft` or `inactive`: Configuration or activation is still required.
+
+HTTP `200 OK` means the retrieval succeeded. It does not, by itself, mean the workflow is active. This GET request reports the workflow’s state; it does not change it.
+
 ## Walkthrough status
 
 The step-by-step requests and responses are being added. For the current operation definitions, see the [OpenAPI specification](../openapi.yaml).
