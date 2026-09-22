@@ -153,7 +153,7 @@ To repeat the check, follow the Swagger Editor instructions under “Explore the
 
 ## Planned improvements
 
-- Add a getting-started guide that explains the workflow lifecycle.
-- Expand troubleshooting guidance for authentication, permissions, and rate-limit errors.
+- Add a getting-started guide that brings authentication, workflow activation, execution, and monitoring into one walkthrough.
 - Add examples for the remaining error responses.
+- Expand troubleshooting guidance for authentication, permissions, and rate-limit errors.
 - Add automated specification validation to supplement the manual Swagger Editor check.
