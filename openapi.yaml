@@ -112,6 +112,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              example:
+                error:
+                  code: RATE_LIMIT_EXCEEDED
+                  message: "Too many requests. Reduce the request frequency."
 
         '500':
           description: Unexpected server-side error.
@@ -183,11 +187,15 @@ paths:
                   message: "No workflow exists with the supplied ID. Check the workflow ID and retry."
 
         '429':
-          description: Rate limit exceeded.
+         description: Rate limit exceeded.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              example:
+                error:
+                  code: RATE_LIMIT_EXCEEDED
+                  message: "Too many requests. Reduce the request frequency."
 
         '500':
           description: Unexpected server-side error.
@@ -299,6 +307,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              example:
+                error:
+                  code: RATE_LIMIT_EXCEEDED
+                  message: "Too many requests. Reduce the request frequency."
 
         '500':
           description: Unexpected server-side error.
@@ -370,11 +382,15 @@ paths:
                   message: "No execution exists with the supplied ID. Use the execution_id returned when starting the execution."
 
         '429':
-          description: Rate limit exceeded.
+         description: Rate limit exceeded.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              example:
+                error:
+                  code: RATE_LIMIT_EXCEEDED
+                  message: "Too many requests. Reduce the request frequency."
 
         '500':
           description: Unexpected server-side error.
