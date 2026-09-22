@@ -4,8 +4,14 @@ info:
   title: FlowSync API
   version: 1.2.0
   description: |
-    The FlowSync API allows developers to create, manage, and execute
-    automated workflows across connected business applications.
+    FlowSync is a fictional workflow automation API created as a
+    personal documentation sample. No running backend or dashboard
+    is provided. The server URL and examples are illustrative.
+
+    The API describes creating workflows, retrieving their details,
+    starting executions, and checking execution status. Workflow
+    configuration, activation, and API key management are assumed
+    dashboard functions outside this repository's implementation.
 
 servers:
   - url: https://api.flowsync.example.com/v1
