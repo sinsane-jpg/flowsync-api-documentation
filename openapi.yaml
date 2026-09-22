@@ -157,7 +157,10 @@ paths:
       tags:
         - Workflows
       summary: Execute a workflow
-      description: Starts a workflow execution.
+      description: Starts an execution of an active workflow. Confirm that the
+        workflow status is active before calling this operation.
+        Draft and inactive workflows cannot execute and return
+        HTTP 409 Conflict.
       operationId: executeWorkflow
 
       parameters:
@@ -216,7 +219,7 @@ paths:
                 $ref: '#/components/schemas/Error'
 
         '409':
-          description: Workflow is inactive or otherwise unavailable for execution.
+          description: Workflow is not active. Activate it in the assumed dashboard before retrying.
           content:
             application/json:
               schema:
