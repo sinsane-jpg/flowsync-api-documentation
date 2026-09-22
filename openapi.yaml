@@ -33,7 +33,12 @@ paths:
       tags:
         - Workflows
       summary: Create a workflow
-      description: Creates a new workflow in draft status.
+      description: Creates a workflow in draft status. Before execution, an
+        authorized user must configure and activate the workflow
+        in the assumed FlowSync dashboard. No dashboard is implemented
+        in this fictional sample, and activation through the API is
+        outside its scope. Retrieve the workflow to confirm that its
+        status is active before starting an execution.
       operationId: createWorkflow
 
       requestBody:
