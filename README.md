@@ -26,6 +26,8 @@ I authored the OpenAPI specification myself, with limited AI assistance during s
 
 ## Explore the sample
 
+Start with the [getting-started guide](docs/getting-started.md) for a walkthrough of authentication requirements, workflow creation, activation, execution, and monitoring.
+
 The API definition is in [`openapi.yaml`](./openapi.yaml).
 
 To preview it:
@@ -165,6 +167,5 @@ The first automated run completed successfully. This check validates the specifi
 
 ## Planned improvements
 
-- Add a getting-started guide that brings authentication, workflow activation, execution, and monitoring into one walkthrough.
 - Add examples for the remaining error responses.
 - Expand troubleshooting guidance for authentication, permissions, and rate-limit errors.
