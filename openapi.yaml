@@ -78,12 +78,15 @@ paths:
                   message: "The required field 'name' is missing. Include a workflow name and retry."
 
         '401':
-          description: API key is missing or invalid.
+        description: API key is missing or invalid.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-
+              example:
+                error:
+                  code: INVALID_API_KEY
+                  message: "The API key is missing or invalid. Provide a valid key in the Authorization header using the Bearer scheme."
         '403':
           description: API key does not have workflows:write permission.
           content:
@@ -162,11 +165,15 @@ paths:
                 updated_at: "2026-09-22T10:04:00Z"
 
         '401':
-          description: API key is missing or invalid.
+         description: API key is missing or invalid.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              example:
+                error:
+                  code: INVALID_API_KEY
+                  message: "The API key is missing or invalid. Provide a valid key in the Authorization header using the Bearer scheme."
 
         '403':
           description: API key does not have workflows:read permission.
@@ -275,6 +282,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              example:
+                error:
+                  code: INVALID_API_KEY
+                  message: "The API key is missing or invalid. Provide a valid key in the Authorization header using the Bearer scheme."
 
         '403':
           description: API key does not have executions:write permission.
@@ -364,12 +375,15 @@ paths:
                 completed_at: "2026-09-22T10:05:08Z"
 
         '401':
-          description: API key is missing or invalid.
+         description: API key is missing or invalid.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-
+              example:
+                error:
+                  code: INVALID_API_KEY
+                  message: "The API key is missing or invalid. Provide a valid key in the Authorization header using the Bearer scheme."
         '403':
           description: API key does not have executions:read permission.
           content:
