@@ -166,6 +166,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              example:
+                error:
+                  code: INSUFFICIENT_PERMISSIONS
+                  message: "The API key lacks workflows:read permission. Ask an administrator to review its permissions."
 
         '404':
           description: Workflow does not exist.
