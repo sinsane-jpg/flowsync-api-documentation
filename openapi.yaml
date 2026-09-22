@@ -196,6 +196,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Execution'
+              example:
+                execution_id: "exec_7821"
+                workflow_id: "wf_1024"
+                status: pending
+                created_at: "2026-09-22T10:05:00Z"
+                started_at: null
+                completed_at: null
 
         '400':
           description: Request contains invalid input.
