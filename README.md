@@ -147,13 +147,13 @@ To repeat the check, follow the Swagger Editor instructions under “Explore the
 
 - FlowSync is fictional; requests and responses have not been tested against a running service.
 - Dashboard configuration, activation, and API key management are design assumptions. No dashboard is implemented.
-- Complete, operation-specific response examples still need to be added.
-- Execution monitoring is documented, but detailed error-recovery guidance and failure diagnostics remain limited.
+- Success response examples are included for all four operations. Error examples currently cover only the WORKFLOW_NOT_ACTIVE execution error.
+- Execution monitoring and inactive-workflow recovery are documented. Other error-recovery scenarios and detailed failure diagnostics remain limited.
 - Specification validation is currently manual; automated checks are not yet configured.
 
 ## Planned improvements
 
 - Add a getting-started guide that explains the workflow lifecycle.
-- Add troubleshooting examples for common API errors.
-- Add operation-specific response examples.
+- Expand troubleshooting guidance for authentication, permissions, and rate-limit errors.
+- Add examples for the remaining error responses.
 - Add automated specification validation to supplement the manual Swagger Editor check.
