@@ -53,7 +53,15 @@ This fictional sample assumes that users configure and activate workflows in a F
 4. **Execute:** Use `POST /workflows/{workflow_id}/execute` to start an execution.
 5. **Monitor:** Use `GET /executions/{execution_id}` to check execution status.
 
-For this sample, only active workflows can execute. Draft and inactive workflows are not executable. Activation through the API is outside the sample’s scope.
+For this sample, only active workflows can execute. Draft and inactive workflows are not executable. Activation through the API is outside the sample’s scope. 
+
+## Validation
+
+On September 22, 2026, I loaded the OpenAPI specification into Swagger Editor. The editor reported no errors and rendered the API reference.
+
+This was a manual specification check. It does not verify runtime behavior, successful API requests, or the completeness of the documentation. FlowSync has no running backend.
+
+To repeat the check, follow the Swagger Editor instructions under “Explore the sample.” Recheck the specification after making changes.
 
 ## Current limitations
 
@@ -67,4 +75,4 @@ For this sample, only active workflows can execute. Draft and inactive workflows
 - Add a getting-started guide that explains the workflow lifecycle.
 - Expand authentication and troubleshooting guidance.
 - Add operation-specific response examples.
-- Establish a repeatable specification validation process and document its results.
+- Add automated specification validation to supplement the manual Swagger Editor check.
