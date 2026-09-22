@@ -161,6 +161,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              example:
+                error:
+                  code: WORKFLOW_NOT_FOUND
+                  message: "No workflow exists with the supplied ID. Check the workflow ID and retry."
 
         '429':
           description: Rate limit exceeded.
