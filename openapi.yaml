@@ -1,46 +1,30 @@
 openapi: 3.0.3
-
 info:
   title: FlowSync API
   version: 1.2.0
   description: |
-    FlowSync is a fictional workflow automation API created as a
-    personal documentation sample. No running backend or dashboard
-    is provided. The server URL and examples are illustrative.
+    FlowSync is a fictional workflow automation API created as a personal documentation sample. No running backend or dashboard is provided. The server URL and examples are illustrative.
 
-    The API describes creating workflows, retrieving their details,
-    starting executions, and checking execution status. Workflow
-    configuration, activation, and API key management are assumed
-    dashboard functions outside this repository's implementation.
-
+    The API describes creating workflows, retrieving their details, starting executions, and checking execution status. Workflow configuration, activation, and API key management are assumed dashboard functions outside this repository's implementation.
 servers:
   - url: https://api.flowsync.example.com/v1
     description: FlowSync API
-
 security:
   - bearerAuth: []
-
 tags:
   - name: Workflows
     description: Create and manage workflows.
   - name: Executions
     description: Start and monitor workflow executions.
-
 paths:
-
   /workflows:
     post:
       tags:
         - Workflows
       summary: Create a workflow
-      description: Creates a workflow in draft status. Before execution, an
-        authorized user must configure and activate the workflow
-        in the assumed FlowSync dashboard. No dashboard is implemented
-        in this fictional sample, and activation through the API is
-        outside its scope. Retrieve the workflow to confirm that its
-        status is active before starting an execution.
+      description: |
+        Creates a workflow in draft status. Before execution, an authorized user must configure and activate the workflow in the assumed FlowSync dashboard. No dashboard is implemented in this fictional sample, and activation through the API is outside its scope. Retrieve the workflow to confirm that its status is active before starting an execution.
       operationId: createWorkflow
-
       requestBody:
         required: true
         content:
@@ -50,7 +34,6 @@ paths:
             example:
               name: Customer Onboarding
               description: Automates the customer onboarding process.
-
       responses:
         '201':
           description: Workflow created successfully.
@@ -59,13 +42,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/Workflow'
               example:
-                id: "wf_1024"
-                name: "Customer Onboarding"
-                description: "Automates the customer onboarding process."
+                id: wf_1024
+                name: Customer Onboarding
+                description: Automates the customer onboarding process.
                 status: draft
-                created_at: "2026-09-22T10:00:00Z"
-                updated_at: "2026-09-22T10:00:00Z"
-
+                created_at: '2026-09-22T10:00:00Z'
+                updated_at: '2026-09-22T10:00:00Z'
         '400':
           description: Request contains invalid parameters.
           content:
@@ -75,207 +57,7 @@ paths:
               example:
                 error:
                   code: INVALID_REQUEST
-                  message: "The required field 'name' is missing. Include a workflow name and retry."
-
-        '401':
-        description: API key is missing or invalid.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              example:
-                error:
-                  code: INVALID_API_KEY
-                  message: "The API key is missing or invalid. Provide a valid key in the Authorization header using the Bearer scheme."
-        '403':
-          description: API key does not have workflows:write permission.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              example:
-                error:
-                  code: INSUFFICIENT_PERMISSIONS
-                  message: "The API key lacks workflows:write permission. Ask an administrator to review its permissions."
-
-        '409':
-          description: A workflow with the same name already exists.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              example:
-                error:
-                  code: WORKFLOW_NAME_CONFLICT
-                  message: "A workflow with this name already exists. Choose a different name and retry."
-
-        '429':
-          description: Rate limit exceeded.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              example:
-                error:
-                  code: RATE_LIMIT_EXCEEDED
-                  message: "Too many requests. Reduce the request frequency."
-
-        '500':
-          description: Unexpected server-side error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              example:
-                error:
-                  code: INTERNAL_SERVER_ERROR
-                  message: "An unexpected server error occurred. The outcome of the request may be uncertain."
-
-
-  /workflows/{workflow_id}:
-    get:
-      tags:
-        - Workflows
-      summary: Get a workflow
-      description: Returns information about a specific workflow.
-      operationId: getWorkflow
-
-      parameters:
-        - name: workflow_id
-          in: path
-          required: true
-          description: Unique ID of the workflow.
-          schema:
-            type: string
-            example: "wf_1024"
-
-      responses:
-        '200':
-          description: Workflow retrieved successfully.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Workflow'
-              example:
-                id: "wf_1024"
-                name: "Customer Onboarding"
-                description: "Automates the customer onboarding process."
-                status: active
-                created_at: "2026-09-22T10:00:00Z"
-                updated_at: "2026-09-22T10:04:00Z"
-
-        '401':
-         description: API key is missing or invalid.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              example:
-                error:
-                  code: INVALID_API_KEY
-                  message: "The API key is missing or invalid. Provide a valid key in the Authorization header using the Bearer scheme."
-
-        '403':
-          description: API key does not have workflows:read permission.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              example:
-                error:
-                  code: INSUFFICIENT_PERMISSIONS
-                  message: "The API key lacks workflows:read permission. Ask an administrator to review its permissions."
-
-        '404':
-          description: Workflow does not exist.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              example:
-                error:
-                  code: WORKFLOW_NOT_FOUND
-                  message: "No workflow exists with the supplied ID. Check the workflow ID and retry."
-
-        '429':
-         description: Rate limit exceeded.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              example:
-                error:
-                  code: RATE_LIMIT_EXCEEDED
-                  message: "Too many requests. Reduce the request frequency."
-
-        '500':
-          description: Unexpected server-side error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              example:
-                error:
-                  code: INTERNAL_SERVER_ERROR
-                  message: "An unexpected server error occurred. The outcome of the request may be uncertain."
-
-
-  /workflows/{workflow_id}/execute:
-    post:
-      tags:
-        - Workflows
-      summary: Execute a workflow
-      description: Starts an execution of an active workflow. Confirm that the
-        workflow status is active before calling this operation.
-        Draft and inactive workflows cannot execute and return
-        HTTP 409 Conflict.
-      operationId: executeWorkflow
-
-      parameters:
-        - name: workflow_id
-          in: path
-          required: true
-          description: Unique ID of the workflow to execute.
-          schema:
-            type: string
-            example: "wf_1024"
-
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ExecuteWorkflowRequest'
-            example:
-              input:
-                customer_id: "cus_2048"
-
-      responses:
-        '202':
-          description: Workflow execution queued successfully.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Execution'
-              example:
-                execution_id: "exec_7821"
-                workflow_id: "wf_1024"
-                status: pending
-                created_at: "2026-09-22T10:05:00Z"
-                started_at: null
-                completed_at: null
-
-        '400':
-          description: Request contains invalid input.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              example:
-                error:
-                  code: INVALID_REQUEST
-                  message: "The required field 'input' is missing. Include an input object containing the values required by the workflow."
-
+                  message: The required field 'name' is missing. Include a workflow name and retry.
         '401':
           description: API key is missing or invalid.
           content:
@@ -285,10 +67,10 @@ paths:
               example:
                 error:
                   code: INVALID_API_KEY
-                  message: "The API key is missing or invalid. Provide a valid key in the Authorization header using the Bearer scheme."
-
+                  message: The API key is missing or invalid. Provide a valid key in the Authorization
+                    header using the Bearer scheme.
         '403':
-          description: API key does not have executions:write permission.
+          description: API key does not have workflows:write permission.
           content:
             application/json:
               schema:
@@ -296,30 +78,18 @@ paths:
               example:
                 error:
                   code: INSUFFICIENT_PERMISSIONS
-                  message: "The API key lacks executions:write permission. Ask an administrator to review its permissions."
-
-        '404':
-          description: Workflow does not exist.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              example:
-                error:
-                  code: WORKFLOW_NOT_FOUND
-                  message: "No workflow exists with the supplied ID. Check the workflow ID and retry."
-
+                  message: The API key lacks workflows:write permission. Ask an administrator to review
+                    its permissions.
         '409':
-          description: Workflow is not active. Activate it in the assumed dashboard before retrying.
+          description: A workflow with the same name already exists.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
               example:
                 error:
-                  code: WORKFLOW_NOT_ACTIVE
-                  message: "The workflow must be active before execution. Activate it in the FlowSync dashboard, then retry."
-
+                  code: WORKFLOW_NAME_CONFLICT
+                  message: A workflow with this name already exists. Choose a different name and retry.
         '429':
           description: Rate limit exceeded.
           content:
@@ -329,10 +99,9 @@ paths:
               example:
                 error:
                   code: RATE_LIMIT_EXCEEDED
-                  message: "Too many requests. Reduce the request frequency."
-
+                  message: Too many requests. Reduce the request frequency.
         '500':
-         description: Unexpected server-side error.
+          description: Unexpected server-side error.
           content:
             application/json:
               schema:
@@ -340,8 +109,202 @@ paths:
               example:
                 error:
                   code: INTERNAL_SERVER_ERROR
-                  message: "An unexpected server error occurred. The outcome of the request may be uncertain."
-
+                  message: An unexpected server error occurred. The outcome of the request may be uncertain.
+  /workflows/{workflow_id}:
+    get:
+      tags:
+        - Workflows
+      summary: Get a workflow
+      description: Returns information about a specific workflow.
+      operationId: getWorkflow
+      parameters:
+        - name: workflow_id
+          in: path
+          required: true
+          description: Unique ID of the workflow.
+          schema:
+            type: string
+            example: wf_1024
+      responses:
+        '200':
+          description: Workflow retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Workflow'
+              example:
+                id: wf_1024
+                name: Customer Onboarding
+                description: Automates the customer onboarding process.
+                status: active
+                created_at: '2026-09-22T10:00:00Z'
+                updated_at: '2026-09-22T10:04:00Z'
+        '401':
+          description: API key is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error:
+                  code: INVALID_API_KEY
+                  message: The API key is missing or invalid. Provide a valid key in the Authorization
+                    header using the Bearer scheme.
+        '403':
+          description: API key does not have workflows:read permission.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error:
+                  code: INSUFFICIENT_PERMISSIONS
+                  message: The API key lacks workflows:read permission. Ask an administrator to review
+                    its permissions.
+        '404':
+          description: Workflow does not exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error:
+                  code: WORKFLOW_NOT_FOUND
+                  message: No workflow exists with the supplied ID. Check the workflow ID and retry.
+        '429':
+          description: Rate limit exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error:
+                  code: RATE_LIMIT_EXCEEDED
+                  message: Too many requests. Reduce the request frequency.
+        '500':
+          description: Unexpected server-side error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error:
+                  code: INTERNAL_SERVER_ERROR
+                  message: An unexpected server error occurred. The outcome of the request may be uncertain.
+  /workflows/{workflow_id}/execute:
+    post:
+      tags:
+        - Workflows
+      summary: Execute a workflow
+      description: Starts an execution of an active workflow. Confirm that the workflow status is active
+        before calling this operation. Draft and inactive workflows cannot execute and return HTTP 409
+        Conflict.
+      operationId: executeWorkflow
+      parameters:
+        - name: workflow_id
+          in: path
+          required: true
+          description: Unique ID of the workflow to execute.
+          schema:
+            type: string
+            example: wf_1024
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExecuteWorkflowRequest'
+            example:
+              input:
+                customer_id: cus_2048
+      responses:
+        '202':
+          description: Workflow execution queued successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Execution'
+              example:
+                execution_id: exec_7821
+                workflow_id: wf_1024
+                status: pending
+                created_at: '2026-09-22T10:05:00Z'
+                started_at: null
+                completed_at: null
+        '400':
+          description: Request contains invalid input.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error:
+                  code: INVALID_REQUEST
+                  message: The required field 'input' is missing. Include an input object containing the
+                    values required by the workflow.
+        '401':
+          description: API key is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error:
+                  code: INVALID_API_KEY
+                  message: The API key is missing or invalid. Provide a valid key in the Authorization
+                    header using the Bearer scheme.
+        '403':
+          description: API key does not have executions:write permission.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error:
+                  code: INSUFFICIENT_PERMISSIONS
+                  message: The API key lacks executions:write permission. Ask an administrator to review
+                    its permissions.
+        '404':
+          description: Workflow does not exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error:
+                  code: WORKFLOW_NOT_FOUND
+                  message: No workflow exists with the supplied ID. Check the workflow ID and retry.
+        '409':
+          description: Workflow is not active. Activate it in the assumed dashboard before retrying.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error:
+                  code: WORKFLOW_NOT_ACTIVE
+                  message: The workflow must be active before execution. Activate it in the FlowSync dashboard,
+                    then retry.
+        '429':
+          description: Rate limit exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error:
+                  code: RATE_LIMIT_EXCEEDED
+                  message: Too many requests. Reduce the request frequency.
+        '500':
+          description: Unexpected server-side error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error:
+                  code: INTERNAL_SERVER_ERROR
+                  message: An unexpected server error occurred. The outcome of the request may be uncertain.
   /executions/{execution_id}:
     get:
       tags:
@@ -349,7 +312,6 @@ paths:
       summary: Get an execution
       description: Returns the current status and details of a workflow execution.
       operationId: getExecution
-
       parameters:
         - name: execution_id
           in: path
@@ -357,8 +319,7 @@ paths:
           description: Unique ID of the execution.
           schema:
             type: string
-            example: "exec_7821"
-
+            example: exec_7821
       responses:
         '200':
           description: Execution retrieved successfully.
@@ -367,15 +328,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/Execution'
               example:
-                execution_id: "exec_7821"
-                workflow_id: "wf_1024"
+                execution_id: exec_7821
+                workflow_id: wf_1024
                 status: completed
-                created_at: "2026-09-22T10:05:00Z"
-                started_at: "2026-09-22T10:05:02Z"
-                completed_at: "2026-09-22T10:05:08Z"
-
+                created_at: '2026-09-22T10:05:00Z'
+                started_at: '2026-09-22T10:05:02Z'
+                completed_at: '2026-09-22T10:05:08Z'
         '401':
-         description: API key is missing or invalid.
+          description: API key is missing or invalid.
           content:
             application/json:
               schema:
@@ -383,7 +343,8 @@ paths:
               example:
                 error:
                   code: INVALID_API_KEY
-                  message: "The API key is missing or invalid. Provide a valid key in the Authorization header using the Bearer scheme."
+                  message: The API key is missing or invalid. Provide a valid key in the Authorization
+                    header using the Bearer scheme.
         '403':
           description: API key does not have executions:read permission.
           content:
@@ -393,8 +354,8 @@ paths:
               example:
                 error:
                   code: INSUFFICIENT_PERMISSIONS
-                  message: "The API key lacks executions:read permission. Ask an administrator to review its permissions."
-
+                  message: The API key lacks executions:read permission. Ask an administrator to review
+                    its permissions.
         '404':
           description: Execution does not exist.
           content:
@@ -404,10 +365,10 @@ paths:
               example:
                 error:
                   code: EXECUTION_NOT_FOUND
-                  message: "No execution exists with the supplied ID. Use the execution_id returned when starting the execution."
-
+                  message: No execution exists with the supplied ID. Use the execution_id returned when
+                    starting the execution.
         '429':
-         description: Rate limit exceeded.
+          description: Rate limit exceeded.
           content:
             application/json:
               schema:
@@ -415,10 +376,9 @@ paths:
               example:
                 error:
                   code: RATE_LIMIT_EXCEEDED
-                  message: "Too many requests. Reduce the request frequency."
-
+                  message: Too many requests. Reduce the request frequency.
         '500':
-         description: Unexpected server-side error.
+          description: Unexpected server-side error.
           content:
             application/json:
               schema:
@@ -426,11 +386,8 @@ paths:
               example:
                 error:
                   code: INTERNAL_SERVER_ERROR
-                  message: "An unexpected server error occurred. The outcome of the request may be uncertain."
-
-
+                  message: An unexpected server error occurred. The outcome of the request may be uncertain.
 components:
-
   securitySchemes:
     bearerAuth:
       type: http
@@ -438,9 +395,7 @@ components:
       bearerFormat: API_KEY
       description: |
         Use your FlowSync API key as a Bearer token.
-
   schemas:
-
     CreateWorkflowRequest:
       type: object
       required:
@@ -450,13 +405,10 @@ components:
           type: string
           description: Name of the workflow.
           example: Customer Onboarding
-
         description:
           type: string
           description: Optional description of the workflow.
           example: Automates the customer onboarding process.
-
-
     ExecuteWorkflowRequest:
       type: object
       required:
@@ -467,9 +419,7 @@ components:
           description: Input values required by the workflow.
           additionalProperties: true
           example:
-            customer_id: "cus_2048"
-
-
+            customer_id: cus_2048
     Workflow:
       type: object
       required:
@@ -478,23 +428,19 @@ components:
         - status
         - created_at
         - updated_at
-
       properties:
         id:
           type: string
           description: Unique identifier for the workflow.
-          example: "wf_1024"
-
+          example: wf_1024
         name:
           type: string
           description: Name assigned to the workflow.
           example: Customer Onboarding
-
         description:
           type: string
           description: Optional description of the workflow.
           example: Automates the customer onboarding process.
-
         status:
           type: string
           description: Current workflow status.
@@ -503,20 +449,16 @@ components:
             - active
             - inactive
           example: active
-
         created_at:
           type: string
           format: date-time
           description: UTC timestamp when the workflow was created.
-          example: "2026-08-11T10:30:00Z"
-
+          example: '2026-08-11T10:30:00Z'
         updated_at:
           type: string
           format: date-time
           description: UTC timestamp when the workflow was last updated.
-          example: "2026-08-11T10:45:00Z"
-
-
+          example: '2026-08-11T10:45:00Z'
     Execution:
       type: object
       required:
@@ -524,18 +466,15 @@ components:
         - workflow_id
         - status
         - created_at
-
       properties:
         execution_id:
           type: string
           description: Unique identifier for the execution.
-          example: "exec_7821"
-
+          example: exec_7821
         workflow_id:
           type: string
           description: ID of the workflow being executed.
-          example: "wf_1024"
-
+          example: wf_1024
         status:
           type: string
           description: Current execution status.
@@ -545,46 +484,39 @@ components:
             - completed
             - failed
           example: completed
-
         started_at:
           type: string
           format: date-time
           nullable: true
           description: UTC timestamp when execution started. Null while the execution has not started.
-          example: "2026-08-11T11:00:02Z"
-
+          example: '2026-08-11T11:00:02Z'
         completed_at:
           type: string
           format: date-time
           nullable: true
-          description: UTC timestamp when execution completed. Null while the execution is still pending or running.
-          example: "2026-08-11T11:00:08Z"
-
+          description: UTC timestamp when execution completed. Null while the execution is still pending
+            or running.
+          example: '2026-08-11T11:00:08Z'
         created_at:
           type: string
           format: date-time
           description: UTC timestamp when the execution was created.
-          example: "2026-08-11T11:00:00Z"
-
-
+          example: '2026-08-11T11:00:00Z'
     Error:
       type: object
       required:
         - error
-
       properties:
         error:
           type: object
           required:
             - code
             - message
-
           properties:
             code:
               type: string
               description: Machine-readable error code.
               example: INVALID_API_KEY
-
             message:
               type: string
               description: Human-readable description of the error.
