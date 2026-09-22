@@ -1,5 +1,7 @@
 # FlowSync API Documentation
 
+[![Validate OpenAPI](https://github.com/sinsane-jpg/flowsync-api-documentation/actions/workflows/validate-openapi.yml/badge.svg)](https://github.com/sinsane-jpg/flowsync-api-documentation/actions/workflows/validate-openapi.yml)
+
 A personal API documentation sample for **FlowSync**, a fictional workflow automation product. This project demonstrates how I structure an OpenAPI specification for developers working with workflows and their executions.
 
 ## Project status
