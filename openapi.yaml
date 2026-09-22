@@ -72,6 +72,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              example:
+                error:
+                  code: INVALID_REQUEST
+                  message: "The required field 'name' is missing. Include a workflow name and retry."
 
         '401':
           description: API key is missing or invalid.
