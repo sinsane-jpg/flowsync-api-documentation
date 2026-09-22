@@ -101,6 +101,49 @@ Check the `status` field before proceeding:
 
 HTTP `200 OK` means the retrieval succeeded. It does not, by itself, mean the workflow is active. This GET request reports the workflow’s state; it does not change it.
 
+## 3. Start an execution
+
+After confirming that the workflow is active, send an execution request. This operation requires `executions:write` permission.
+
+For this walkthrough, assume the workflow was configured in the conceptual dashboard to accept a `customer_id` input. Other workflows may require different inputs.
+
+```bash
+curl --request POST \
+  --url https://api.flowsync.example.com/v1/workflows/wf_1024/execute \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "input": {
+      "customer_id": "cus_2048"
+    }
+  }'
+```
+
+Replace `wf_1024` with your workflow ID. `cus_2048` is an illustrative customer identifier.
+
+### Expected response
+
+The intended response is HTTP `202 Accepted` with a body like this:
+
+```json
+{
+  "execution_id": "exec_7821",
+  "workflow_id": "wf_1024",
+  "status": "pending",
+  "created_at": "2026-09-22T10:05:00Z",
+  "started_at": null,
+  "completed_at": null
+}
+```
+
+Save the returned `execution_id` for the next step.
+
+`202 Accepted` means the request was accepted for processing—not that the workflow completed successfully. In this example, `pending` indicates that execution has not started, so both start and completion timestamps are `null`.
+
+If the request returns `409 WORKFLOW_NOT_ACTIVE`, follow the [inactive-workflow troubleshooting guide](../README.md#troubleshooting-workflow-is-not-active).
+
+If the request times out or the connection drops, do not automatically submit another execution. The first request may have been accepted, and duplicate-execution prevention is not defined in this sample.
+
 ## Walkthrough status
 
 The step-by-step requests and responses are being added. For the current operation definitions, see the [OpenAPI specification](../openapi.yaml).
