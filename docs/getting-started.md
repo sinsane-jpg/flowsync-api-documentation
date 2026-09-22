@@ -144,6 +144,56 @@ If the request returns `409 WORKFLOW_NOT_ACTIVE`, follow the [inactive-workflow 
 
 If the request times out or the connection drops, do not automatically submit another execution. The first request may have been accepted, and duplicate-execution prevention is not defined in this sample.
 
-## Walkthrough status
+## 4. Check the execution result
 
-The step-by-step requests and responses are being added. For the current operation definitions, see the [OpenAPI specification](../openapi.yaml).
+Use the `execution_id` returned by the execution request to retrieve its status. This operation requires `executions:read` permission.
+
+```bash
+curl --request GET \
+  --url https://api.flowsync.example.com/v1/executions/exec_7821 \
+  --header 'Authorization: Bearer YOUR_API_KEY'
+```
+
+Replace `exec_7821` with the returned execution ID.
+
+### Expected response
+
+The intended success response is HTTP `200 OK`. After successful execution, an illustrative response is:
+
+```json
+{
+  "execution_id": "exec_7821",
+  "workflow_id": "wf_1024",
+  "status": "completed",
+  "created_at": "2026-09-22T10:05:00Z",
+  "started_at": "2026-09-22T10:05:02Z",
+  "completed_at": "2026-09-22T10:05:08Z"
+}
+```
+
+HTTP `200 OK` confirms that the status lookup succeeded. Read `status` to determine the execution’s outcome:
+
+| Status | Next action |
+|---|---|
+| `pending` | Wait before checking the same execution again. |
+| `running` | Wait before checking the same execution again. |
+| `completed` | Stop checking; the execution succeeded. |
+| `failed` | Stop checking and investigate before starting another execution. |
+
+For this sample, `completed` and `failed` are terminal states.
+
+### If execution is still in progress
+
+Repeated status checks are called polling. Introduce a delay between requests and set a maximum waiting time in your client. This sample does not specify a polling interval or rate-limit policy.
+
+If your client stops waiting, the execution may still be running. A failed status request also does not establish that the execution failed. Check the same execution again when the connection is restored.
+
+The response does not include failure reasons or execution logs, so detailed diagnosis of a failed execution is outside this sample’s scope.
+
+## What this walkthrough demonstrates
+
+You have followed the intended sequence for creating a workflow, activating it through an assumed dashboard, starting an execution, and checking its outcome.
+
+All requests and responses are illustrative. They have not been tested against a running FlowSync service.
+
+For the operation definitions, see the [OpenAPI specification](../openapi.yaml).
