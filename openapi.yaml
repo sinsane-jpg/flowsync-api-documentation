@@ -245,6 +245,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              example:
+                error:
+                  code: WORKFLOW_NOT_ACTIVE
+                  message: "The workflow must be active before execution. Activate it in the FlowSync dashboard, then retry."
 
         '429':
           description: Rate limit exceeded.
