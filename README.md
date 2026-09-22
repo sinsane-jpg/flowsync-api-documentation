@@ -41,7 +41,37 @@ This sample is written for developers integrating a workflow automation API into
 
 ## Documentation approach
 
-The specification groups operations by resource and uses reusable schemas to keep request, response, and error structures consistent. Operation summaries and field descriptions explain the purpose of each API element.
+The specification groups operations by resource and uses reusable schemas to keep request, response, and error structures consistent. Operation summaries and field descriptions explain the purpose of each API element. 
+
+## Authentication
+
+The specification uses an API key sent as a Bearer token in the HTTP `Authorization` header:
+
+`Authorization: Bearer YOUR_API_KEY`
+
+`YOUR_API_KEY` is a placeholder. This fictional sample does not issue real keys or provide a working authentication service.
+
+### Assumed key setup
+
+For this sample, an administrator creates an API key in the conceptual FlowSync dashboard and assigns the permissions required by the integration. This dashboard functionality is not implemented.
+
+| Operation | Required permission |
+|---|---|
+| Create a workflow | `workflows:write` |
+| Retrieve a workflow | `workflows:read` |
+| Execute a workflow | `executions:write` |
+| Retrieve an execution | `executions:read` |
+
+### Authentication errors
+
+- **401 Unauthorized:** The API key is missing or invalid. Check that the header includes `Bearer` followed by a space and a valid key.
+- **403 Forbidden:** The key lacks the operation’s required permission. Ask an administrator to review its permissions.
+
+These responses describe the intended API contract; they have not been tested against a running service.
+
+### Handling real credentials
+
+When adapting this sample to a real integration, keep credentials out of source files, documentation examples, and Git commits. Use an environment variable or a suitable secret-management system.
 
 ## Workflow lifecycle
 
