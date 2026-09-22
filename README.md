@@ -141,7 +141,9 @@ On September 22, 2026, I loaded the OpenAPI specification into Swagger Editor. T
 
 This was a manual specification check. It does not verify runtime behavior, successful API requests, or the completeness of the documentation. FlowSync has no running backend.
 
-To repeat the check, follow the Swagger Editor instructions under “Explore the sample.” Recheck the specification after making changes.
+To repeat the check, follow the Swagger Editor instructions under “Explore the sample.” Recheck the specification after making changes. 
+
+After adding response examples, I rechecked the specification in Swagger Editor. No errors were reported. I also inspected the rendered examples for all four success responses and the execution operation’s `409 WORKFLOW_NOT_ACTIVE` response. The displayed statuses, timestamps, and error guidance matched the intended sample scenarios.
 
 ## Current limitations
 
