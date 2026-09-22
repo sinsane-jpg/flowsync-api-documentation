@@ -90,6 +90,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              example:
+                error:
+                  code: INSUFFICIENT_PERMISSIONS
+                  message: "The API key lacks workflows:write permission. Ask an administrator to review its permissions."
 
         '409':
           description: A workflow with the same name already exists.
