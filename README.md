@@ -167,11 +167,11 @@ The first automated run completed successfully. This check validates the specifi
 
 - FlowSync is fictional; requests and responses have not been tested against a running service.
 - Dashboard configuration, activation, and API key management are design assumptions. No dashboard is implemented.
-- Success response examples are included for all four operations. Error examples currently cover only the WORKFLOW_NOT_ACTIVE execution error.
+- Success response examples are included for all four operations.
+- All 27 documented responses include illustrative examples: four success responses and 23 error responses. These examples have not been tested against a running service.
 - Execution monitoring and inactive-workflow recovery are documented. Other error-recovery scenarios and detailed failure diagnostics remain limited.
 - Automated checks cover specification rules. Documentation clarity, scenario completeness, and rendered examples still require manual review.
 
 ## Planned improvements
-
-- Add examples for the remaining error responses.
+ 
 - Expand troubleshooting guidance for authentication, permissions, and rate-limit errors.
