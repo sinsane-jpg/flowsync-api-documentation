@@ -85,6 +85,38 @@ This fictional sample assumes that users configure and activate workflows in a F
 
 For this sample, only active workflows can execute. Draft and inactive workflows are not executable. Activation through the API is outside the sample’s scope. 
 
+## Monitor an execution
+
+Workflow execution is asynchronous: the API accepts the request before the workflow finishes.
+
+1. Call `POST /workflows/{workflow_id}/execute` for an active workflow.
+2. An HTTP `202 Accepted` response indicates that the execution has been queued. It does not mean the workflow completed successfully.
+3. Read the `execution_id` from the response.
+4. Call `GET /executions/{execution_id}` to retrieve its status.
+
+| Status | Meaning | Next action |
+|---|---|---|
+| `pending` | The execution is waiting to start. | Check again after a delay. |
+| `running` | The execution is in progress. | Check again after a delay. |
+| `completed` | The execution finished successfully. | Stop polling. |
+| `failed` | The execution finished unsuccessfully. | Stop polling and investigate before starting another execution. |
+
+For this fictional sample, `completed` and `failed` are treated as terminal states.
+
+### Polling and retries
+
+Polling means requesting the execution status repeatedly. Avoid continuous requests: introduce a delay and set a maximum waiting time in your client. This sample does not define a polling interval or rate-limit policy.
+
+If a status request fails, that does not necessarily mean the workflow execution failed. Likewise, if your client stops waiting, the execution may still be running.
+
+Do not automatically submit another execution after an uncertain response. Duplicate-execution prevention is not defined in this sample.
+
+### Current diagnostic limitation
+
+The execution response includes status and timestamps but does not provide a failure reason or execution logs. Detailed failure diagnosis is outside the current sample’s scope.
+
+This guidance describes the intended behavior of a fictional API; it has not been verified against a running service.
+
 ## Validation
 
 On September 22, 2026, I loaded the OpenAPI specification into Swagger Editor. The editor reported no errors and rendered the API reference.
