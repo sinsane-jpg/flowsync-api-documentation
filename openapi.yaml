@@ -240,6 +240,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              example:
+                error:
+                  code: INVALID_REQUEST
+                  message: "The required field 'input' is missing. Include an input object containing the values required by the workflow."
 
         '401':
           description: API key is missing or invalid.
